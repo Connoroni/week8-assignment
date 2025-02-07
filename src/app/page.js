@@ -3,7 +3,7 @@ import { db } from "@/utils/dbConnection";
 import Link from "next/link";
 
 export default async function Home() {
-  const posts = await db.query(`SELECT * FROM posts`).rows;
+  const posts = (await db.query(`SELECT * FROM posts`)).rows;
   console.log(posts);
 
   return (
