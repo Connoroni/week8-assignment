@@ -6,7 +6,8 @@
 //     username VARCHAR(255),
 //     timestamp TIMESTAMP,
 //     post_title VARCHAR(255),
-//     post_image TEXT
+//     post_image TEXT,
+//     post_alt VARCHAR(255)
 //   );
 
 //   CREATE TABLE IF NOT EXISTS comments (
@@ -18,10 +19,10 @@
 //   );
 
 //! Inserting dummy data (each one run separately)
-// INSERT INTO posts (username, timestamp, post_title, img)
-// VALUES ('John Smith', current_timestamp, 'Lovely Orangutan Photo', 'https://www.agoodplace.co.uk/images/tut-tut2.jpg');
-// INSERT INTO posts (username, timestamp, post_title, img)
-// VALUES ('Connor', current_timestamp, 'Hull Scenery', 'https://www.planetware.com/photos-large/ENG/england-hull-the-deep.jpg');
+// INSERT INTO posts (username, timestamp, post_title, post_image, post_alt)
+// VALUES ('John Smith', current_timestamp, 'Lovely Orangutan Photo', 'https://www.agoodplace.co.uk/images/tut-tut2.jpg', 'A mother orangutan and her baby, both are looking at the camera');
+// INSERT INTO posts (username, timestamp, post_title, post_image, post_alt)
+// VALUES ('Connor', current_timestamp, 'Hull Scenery', 'https://www.planetware.com/photos-large/ENG/england-hull-the-deep.jpg', 'A photo of the Deep in Hull,UK. It is a triangular building with the River Hull in the foreground and the River Humber in the background.');
 
 // INSERT INTO comments (username, timestamp, comment_text, post_id)
 // VALUES ('Tony', current_timestamp, 'That is such a cute orangutan!', 1);
