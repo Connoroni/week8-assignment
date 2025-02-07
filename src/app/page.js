@@ -14,7 +14,9 @@ export default async function Home() {
             <p className="post-username">{post.username}</p>
             <p className="post-timestamp">{post.timestamp}</p>
           </div>
-          <h2 className="post-title">{post.post_title}</h2>
+          <Link href={`/posts/${post.id}`}>
+            <h2 className="post-title">{post.post_title}</h2>
+          </Link>
           <Image
             className="post-image"
             src={post.post_image}
