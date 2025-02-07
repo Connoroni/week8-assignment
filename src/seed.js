@@ -33,3 +33,10 @@
 // VALUES ('U. R. Rong', current_timestamp, 'Umm actually, orangutans are apes not monkeys...', 1);
 
 //! Example selects
+//? Selecting all posts for the posts page (very simple)
+// SELECT * FROM posts
+
+//? Selecting comments matching the post's id
+// SELECT * FROM comments WHERE post_id = 1;
+// in the actual query it will be something like:
+// `SELECT * FROM comments WHERE post_id = $1`, [params.id]
