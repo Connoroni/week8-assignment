@@ -12,7 +12,13 @@ export default async function Home() {
         <div key={post.id} className="feed-post">
           <div className="post-header">
             <p className="post-username">{post.username}</p>
-            <p className="post-timestamp">{post.timestamp.toDateString()}</p>
+            <p className="post-timestamp">
+              {post.timestamp.toDateString()},&nbsp;
+              {post.timestamp.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
           </div>
           <Link href={`/posts/${post.id}`}>
             <h2 className="post-title">{post.post_title}</h2>
