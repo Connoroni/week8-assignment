@@ -1,4 +1,6 @@
 import { db } from "@/utils/dbConnection";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export default async function PostForm() {
   async function submitHandler(formValues) {
@@ -20,7 +22,8 @@ export default async function PostForm() {
         formData.post_alt,
       ]
     );
-    console.log(db.query);
+    revalidatePath("/");
+    redirect("/");
   }
   return (
     <>
