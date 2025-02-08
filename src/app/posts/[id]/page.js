@@ -1,5 +1,7 @@
 import { db } from "@/utils/dbConnection";
 import Image from "next/image";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export default async function DynamicPost({ params }) {
   const postParams = await params;
@@ -12,6 +14,24 @@ export default async function DynamicPost({ params }) {
       [postParams.id]
     )
   ).rows;
+  const commentQuery = (
+    await db.query(`SELECT * FROM comments WHERE post_id = $1`, [postParams.id])
+  ).rows;
+
+  async function commentSubmit(formValues) {
+    "use server";
+    const formData = {
+      username: formValues.get("username"),
+      comment_text: formValues.get("comment_text"),
+    };
+    db.query(
+      `INSERT INTO comments (username, timestamp, comment_text, post_id)
+        VALUES ($1, current_timestamp, $2, $3)`,
+      [formData.username, formData.comment_text, postParams.id]
+    );
+    revalidatePath(`/posts/${postParams.id}`);
+    redirect(`/posts/${postParams.id}`);
+  }
 
   return (
     <section className="post-page">
@@ -37,7 +57,30 @@ export default async function DynamicPost({ params }) {
           />
         </div>
       ))}
-      {/* map through comments here */}
+      <div className="comment-form">
+        <form action={commentSubmit}>
+          <label htmlFor="username">Username:</label>
+          <input type="text" name="username" id="username" required />
+          <label htmlFor="comment_text">Enter your comment here:</label>
+          <textarea name="comment_text" id="comment_text" required />
+          <button type="submit">Submit comment</button>
+        </form>
+      </div>
+      {commentQuery.map((comment) => (
+        <div key={comment.id} className="comment">
+          <div className="comment-header">
+            <h2 className="comment-username">{comment.username}</h2>
+            <p className="comment-timestamp">
+              {comment.timestamp.toDateString()},&nbsp;
+              {comment.timestamp.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+          </div>
+          <p className="comment-text">{comment.comment_text}</p>
+        </div>
+      ))}
     </section>
   );
 }
