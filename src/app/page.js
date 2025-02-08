@@ -12,7 +12,7 @@ export default async function Home() {
         <div key={post.id} className="feed-post">
           <div className="post-header">
             <p className="post-username">{post.username}</p>
-            <p className="post-timestamp">{post.timestamp}</p>
+            <p className="post-timestamp">{post.timestamp.toDateString()}</p>
           </div>
           <Link href={`/posts/${post.id}`}>
             <h2 className="post-title">{post.post_title}</h2>
@@ -21,6 +21,8 @@ export default async function Home() {
             className="post-image"
             src={post.post_image}
             alt={post.post_alt}
+            width="500"
+            height="500"
           />
         </div>
       ))}
