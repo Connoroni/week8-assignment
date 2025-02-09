@@ -2,6 +2,11 @@ import { db } from "@/utils/dbConnection";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Img Blog - Create Post",
+  description: "Post an image for others to see.",
+};
+
 export default async function PostForm() {
   async function submitHandler(formValues) {
     "use server";

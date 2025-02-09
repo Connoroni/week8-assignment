@@ -3,6 +3,19 @@ import Image from "next/image";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+export async function generateMetadata({ params }) {
+  const pageParams = await params;
+  const postData = (
+    await db.query(`SELECT * FROM posts WHERE id = $1`, [pageParams.id])
+  ).rows;
+  // console.log(postData);
+  return {
+    title: `Img Blog - Post by ${postData[0].username}`,
+    description: `A post by ${postData[0].username} titled ${postData[0].post_title}`,
+  };
+  // I know it's not really best practice to use index number instead of array.map but in this case it will only ever be one item in the array and it won't affect UX
+}
+
 export default async function DynamicPost({ params }) {
   const postParams = await params;
   const postQuery = (
