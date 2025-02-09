@@ -9,7 +9,7 @@ export const metadata = {
 
 export default async function Home() {
   const posts = (await db.query(`SELECT * FROM posts`)).rows;
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <section className="feed">

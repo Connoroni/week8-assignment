@@ -2,6 +2,8 @@ import { db } from "@/utils/dbConnection";
 import Image from "next/image";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import Delete_Post from "@/../public/assets/delete_post.png";
+// import Delete from "@/app/components/Delete";
 
 export async function generateMetadata({ params }) {
   const pageParams = await params;
@@ -19,13 +21,7 @@ export async function generateMetadata({ params }) {
 export default async function DynamicPost({ params }) {
   const postParams = await params;
   const postQuery = (
-    await db.query(
-      //   `SELECT post.username, posts.timestamp, posts.post_title, posts.post_image, posts.post_alt, comments.username, comments.timestamp, comments.comment_text
-      //     JOIN comments ON posts.id = comments.post_id
-      //     WHERE posts.id = $1 AND comments.post_id = $2`,
-      `SELECT * FROM posts WHERE id = $1`,
-      [postParams.id]
-    )
+    await db.query(`SELECT * FROM posts WHERE id = $1`, [postParams.id])
   ).rows;
   const commentQuery = (
     await db.query(`SELECT * FROM comments WHERE post_id = $1`, [postParams.id])
@@ -44,6 +40,14 @@ export default async function DynamicPost({ params }) {
     );
     revalidatePath(`/posts/${postParams.id}`);
     redirect(`/posts/${postParams.id}`);
+  }
+
+  async function deletePost() {
+    "use server";
+    db.query(`DELETE FROM posts WHERE id = $1;`, [postParams.id]);
+    db.query(`DELETE FROM comments WHERE post_id = $1`, [postParams.id]);
+    revalidatePath("/");
+    redirect("/");
   }
 
   return (
@@ -70,6 +74,19 @@ export default async function DynamicPost({ params }) {
           />
         </div>
       ))}
+      {/* <Delete /> */}
+      {/* I was just about to start making the delete button as a separate component and pass deletePost to it as a function in props
+      but then I remembered I could just use a server action with an Image as the button to keep everything in the server */}
+      <form action={deletePost} className="delete-button">
+        <button type="submit">
+          <Image
+            src={Delete_Post}
+            alt="A black and white icon showing a dustbin; this is the icon for 'Delete Post'."
+            width="50"
+            height="50"
+          />
+        </button>
+      </form>
       <div className="comment-form">
         <form action={commentSubmit}>
           <label htmlFor="username">Username:</label>
