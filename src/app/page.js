@@ -7,12 +7,21 @@ export const metadata = {
   description: "See images posted by yourself and other users.",
 };
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
   const posts = (await db.query(`SELECT * FROM posts`)).rows;
   // console.log(posts);
 
+  const query = await searchParams;
+  if (query.sort === "desc") {
+    posts.reverse();
+  }
+
   return (
     <section className="feed">
+      <div className="sorts">
+        <Link href={"/?sort=asc"}>Sort Posts ↑ (newest first)</Link>
+        <Link href={"/?sort=desc"}>Sort Posts ↓ (oldest first)</Link>
+      </div>
       {posts.map((post) => (
         <Link key={post.id} href={`/posts/${post.id}`}>
           <div className="feed-post">
