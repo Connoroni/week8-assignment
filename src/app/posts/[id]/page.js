@@ -33,7 +33,7 @@ export default async function DynamicPost({ params }) {
       username: formValues.get("username"),
       comment_text: formValues.get("comment_text"),
     };
-    db.multi(
+    db.query(
       `INSERT INTO comments (username, timestamp, comment_text, post_id)
         VALUES ($1, current_timestamp, $2, $3)`,
       [formData.username, formData.comment_text, postParams.id]
@@ -44,11 +44,8 @@ export default async function DynamicPost({ params }) {
 
   async function deletePost() {
     "use server";
-    db.query(
-      `DELETE FROM posts WHERE id = $1;
-      DELETE FROM comments WHERE post_id = $2`,
-      [postParams.id, postParams.id]
-    );
+    db.query(`DELETE FROM posts WHERE id = $1;`, [postParams.id]);
+    db.query(`DELETE FROM comments WHERE post_id = $1`, [postParams.id]);
     revalidatePath("/");
     redirect("/");
   }
