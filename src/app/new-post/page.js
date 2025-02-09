@@ -1,6 +1,7 @@
 import { db } from "@/utils/dbConnection";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+// import formStyles from "@/app/new-post/new-post.module.css";
 
 export const metadata = {
   title: "Img Blog - Create Post",
@@ -31,20 +32,46 @@ export default async function PostForm() {
     redirect("/");
   }
   return (
-    <>
-      <div className="post-form">
-        <form action={submitHandler}>
-          <label htmlFor="username">Username:</label>
-          <input type="text" name="username" id="username" required />
-          <label htmlFor="post_title">Post Title:</label>
-          <input type="text" name="post_title" id="post_title" required />
-          <label htmlFor="post_image">Image URL:</label>
-          <input type="url" name="post_image" id="post_image" required />
-          <label htmlFor="post_alt">Enter alt text for your image</label>
-          <textarea name="post_alt" id="post_alt" required />
-          <button type="submit">Create Post</button>
-        </form>
-      </div>
-    </>
+    <div className="content-box post-form">
+      <form className="form" action={submitHandler}>
+        <label className="form-label" htmlFor="username">
+          Username:
+        </label>
+        <input
+          className="input"
+          type="text"
+          name="username"
+          id="username"
+          required
+        />
+        <label className="form-label" htmlFor="post_title">
+          Post Title:
+        </label>
+        <input
+          className="input"
+          type="text"
+          name="post_title"
+          id="post_title"
+          required
+        />
+        <label className="form-label" htmlFor="post_image">
+          Image URL:
+        </label>
+        <input
+          className="input"
+          type="url"
+          name="post_image"
+          id="post_image"
+          required
+        />
+        <label className="form-label" htmlFor="post_alt">
+          Enter alt text for your image
+        </label>
+        <textarea className="input" name="post_alt" id="post_alt" required />
+        <button type="submit" className="submit-button">
+          Create Post
+        </button>
+      </form>
+    </div>
   );
 }

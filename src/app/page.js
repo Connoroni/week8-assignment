@@ -17,17 +17,17 @@ export default async function Home({ searchParams }) {
   }
 
   return (
-    <section className="feed">
+    <>
       <div className="sorts">
-        <Link href={"/?sort=asc"}>Sort Posts ↑ (newest first)</Link>
+        <Link href={"/?sort=asc"}>Sort Posts ↑ (newest first)&nbsp;</Link>
         <Link href={"/?sort=desc"}>Sort Posts ↓ (oldest first)</Link>
       </div>
       {posts.map((post) => (
         <Link key={post.id} href={`/posts/${post.id}`}>
-          <div className="feed-post">
+          <div className="content-box feed-post">
             <div className="post-header">
-              <p className="post-username">{post.username}</p>
-              <p className="post-timestamp">
+              <p className="username post-username">{post.username}&nbsp;</p>
+              <p className="timestamp post-timestamp">
                 {post.timestamp.toDateString()},&nbsp;
                 {post.timestamp.toLocaleTimeString([], {
                   hour: "2-digit",
@@ -35,7 +35,7 @@ export default async function Home({ searchParams }) {
                 })}
               </p>
             </div>
-            <h2 className="post-title">{post.post_title}</h2>
+            <h2 className="title post-title">{post.post_title}</h2>
             <Image
               className="post-image"
               src={post.post_image}
@@ -46,6 +46,6 @@ export default async function Home({ searchParams }) {
           </div>
         </Link>
       ))}
-    </section>
+    </>
   );
 }

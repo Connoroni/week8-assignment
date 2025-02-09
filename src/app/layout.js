@@ -26,16 +26,22 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <header className="header">
-          <Link href="/about">About Us</Link>
-          <Link href="/">Img Blog</Link>
-          <Link href="/new-post">
-            <Image
-              src={create_post}
-              alt="A black and white icon showing a pen writing on paper; this is the icon for 'Create Post'."
-            />
-          </Link>
+          <div className="header-centre">
+            <Link href="/about">About Us</Link>
+            <Link href="/" className="site-title">
+              Img Blog
+            </Link>
+            <Link href="/new-post">
+              <Image
+                src={create_post}
+                alt="A black and white icon showing a pen writing on paper; this is the icon for 'Create Post'."
+                width="50"
+                height="50"
+              />
+            </Link>
+          </div>
         </header>
-        {children}
+        <section className="content-background">{children}</section>
       </body>
     </html>
   );
