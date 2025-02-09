@@ -2,6 +2,11 @@ import Image from "next/image";
 import { db } from "@/utils/dbConnection";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Img Blog - Home",
+  description: "See images posted by yourself and other users.",
+};
+
 export default async function Home() {
   const posts = (await db.query(`SELECT * FROM posts`)).rows;
   console.log(posts);
