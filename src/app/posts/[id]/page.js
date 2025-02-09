@@ -51,12 +51,12 @@ export default async function DynamicPost({ params }) {
   }
 
   return (
-    <section className="post-page">
+    <>
       {postQuery.map((post) => (
-        <div key={post.id} className="dynamic-post">
-          <div className="dynamic-header">
-            <p className="dynamic-username">{post.username}</p>
-            <p className="dynamic-timestamp">
+        <div key={post.id} className="content-box dynamic-post">
+          <div className="post-header">
+            <p className="username dynamic-username">{post.username}&nbsp;</p>
+            <p className="timestamp dynamic-timestamp">
               {post.timestamp.toDateString()},&nbsp;
               {post.timestamp.toLocaleTimeString([], {
                 hour: "2-digit",
@@ -64,7 +64,7 @@ export default async function DynamicPost({ params }) {
               })}
             </p>
           </div>
-          <h2 className="dynamic-title">{post.post_title}</h2>
+          <h2 className="title dynamic-title">{post.post_title}</h2>
           <Image
             className="post-image"
             src={post.post_image}
@@ -72,32 +72,50 @@ export default async function DynamicPost({ params }) {
             width="500"
             height="500"
           />
+
+          {/* <Delete /> */}
+          {/* I was just about to start making the delete button as a separate component and pass deletePost to it as a function in props
+      but then I remembered I could just use a server action with an Image as the button to keep everything in the server */}
+          <form action={deletePost} className="delete-button">
+            <button type="submit">
+              <Image
+                src={Delete_Post}
+                alt="A black and white icon showing a dustbin; this is the icon for 'Delete Post'."
+                width="50"
+                height="50"
+              />
+            </button>
+          </form>
         </div>
       ))}
-      {/* <Delete /> */}
-      {/* I was just about to start making the delete button as a separate component and pass deletePost to it as a function in props
-      but then I remembered I could just use a server action with an Image as the button to keep everything in the server */}
-      <form action={deletePost} className="delete-button">
-        <button type="submit">
-          <Image
-            src={Delete_Post}
-            alt="A black and white icon showing a dustbin; this is the icon for 'Delete Post'."
-            width="50"
-            height="50"
-          />
-        </button>
-      </form>
-      <div className="comment-form">
+      <div className="content-box comment-form flex flex-row">
         <form action={commentSubmit}>
-          <label htmlFor="username">Username:</label>
-          <input type="text" name="username" id="username" required />
-          <label htmlFor="comment_text">Enter your comment here:</label>
-          <textarea name="comment_text" id="comment_text" required />
-          <button type="submit">Submit comment</button>
+          <label className="form-label" htmlFor="username">
+            Username:
+          </label>
+          <input
+            className="input"
+            type="text"
+            name="username"
+            id="username"
+            required
+          />
+          <label className="form-label" htmlFor="comment_text">
+            Enter your comment here:
+          </label>
+          <textarea
+            className="input"
+            name="comment_text"
+            id="comment_text"
+            required
+          />
+          <button type="submit" className="submit-button">
+            Submit comment
+          </button>
         </form>
       </div>
       {commentQuery.map((comment) => (
-        <div key={comment.id} className="comment">
+        <div key={comment.id} className="content-box comment">
           <div className="comment-header">
             <h2 className="comment-username">{comment.username}</h2>
             <p className="comment-timestamp">
@@ -111,6 +129,6 @@ export default async function DynamicPost({ params }) {
           <p className="comment-text">{comment.comment_text}</p>
         </div>
       ))}
-    </section>
+    </>
   );
 }
